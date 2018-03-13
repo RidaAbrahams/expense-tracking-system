@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Expense list</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:dataTable var="expense" value="#{expenseListView.expenses}">
+                <p:column headerText="Month of purchase">
+                    <h:outputText value="#{expense.monthOfPurchase}"/>
+                </p:column>
+                <p:column headerText="Date of purchase">
+                    <h:outputText value="#{expense.transactionDate}">
+                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Product category">
+                    <h:outputText value="#{expense.productCategory}"/>
+                </p:column>
+                <p:column headerText="Product description">
+                    <h:outputText value="#{expense.productDescription}"/>
+                </p:column>
+                <p:column headerText="Units">
+                    <h:outputText value="#{expense.unit}"/>
+                </p:column>
+                <p:column headerText="Product size">
+                    <h:outputText value="#{expense.productSize}"/>
+                </p:column>
+                <p:column headerText="Purchase amount">
+                    <h:outputText value="#{expense.purchaseAmount}"/>
+                </p:column>
+                <p:column headerText="Comments">
+                    <h:outputText value="#{expense.comments}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Product list</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid columns="2">
+                <p:outputLabel for="searchDescription" value="Product description"/>
+                <p:inputText id="searchDescription" value="#{productListView.searchProductDescription}"/>
+                <p:outputLabel for="searchType" value="Product category"/>
+                <p:selectOneMenu id="searchType" value="#{productListView.searchProductCategory}">
+                    <f:selectItem itemLabel="Select one" itemValue=""/>
+                    <f:selectItems value="#{productListView.productCategories}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="Search" action="#{productListView.searchButtonAction}"/>
+                <p:commandButton value="Add" action="#{productDetailView.addButtonAction}"/>
+            </p:panelGrid>
+            <p:dataTable var="product" value="#{productListView.products}">
+                <p:column headerText="Product description">
+                    <h:outputText value="#{product.productDescription}"/>
+                </p:column>
+                <p:column headerText="Product category">
+                    <h:outputText value="#{product.productCategoryDescription}"/>
+                </p:column>
+                <p:column headerText="Edit">
+                    <h:commandLink value="#{product.productDescription}" action="#{productDetailView.editButtonAction}">
+                        <f:setPropertyActionListener value="#{product}" target="#{productDetailView.selectedProduct}"/>
+                    </h:commandLink>
+                </p:column>
+                <p:column headerText="Delete">
+                    <h:commandButton value="Delete" action="#{productListView.deleteButtonAction}">
+                        <f:setPropertyActionListener value="#{product}" target="#{productListView.currentRowInTable}"/>
+                    </h:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
