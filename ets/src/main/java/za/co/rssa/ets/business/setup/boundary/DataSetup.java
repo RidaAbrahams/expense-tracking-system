@@ -8,10 +8,10 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import za.co.rssa.ets.business.product.boundary.CategoryService;
+import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.product.boundary.ProductService;
 import za.co.rssa.ets.business.product.boundary.ProductCategoryService;
-import za.co.rssa.ets.business.product.entity.Category;
+import za.co.rssa.ets.business.category.entity.Category;
 import za.co.rssa.ets.business.product.entity.Product;
 import za.co.rssa.ets.business.product.entity.ProductCategory;
 

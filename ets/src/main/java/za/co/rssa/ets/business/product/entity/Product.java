@@ -1,5 +1,6 @@
 package za.co.rssa.ets.business.product.entity;
 
+import za.co.rssa.ets.business.category.entity.Category;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

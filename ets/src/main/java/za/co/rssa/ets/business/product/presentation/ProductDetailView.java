@@ -10,10 +10,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import za.co.rssa.ets.business.product.boundary.CategoryService;
+import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.product.boundary.ProductService;
 import za.co.rssa.ets.business.product.entity.Product;
-import za.co.rssa.ets.business.product.entity.Category;
+import za.co.rssa.ets.business.category.entity.Category;
 
 /**
  *

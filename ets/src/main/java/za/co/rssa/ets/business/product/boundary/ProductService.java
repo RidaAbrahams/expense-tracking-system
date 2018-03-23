@@ -1,12 +1,13 @@
 package za.co.rssa.ets.business.product.boundary;
 
+import za.co.rssa.ets.business.category.boundary.CategoryService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import za.co.rssa.ets.business.product.entity.Category;
+import za.co.rssa.ets.business.category.entity.Category;
 import za.co.rssa.ets.business.product.entity.Product;
 
 /**

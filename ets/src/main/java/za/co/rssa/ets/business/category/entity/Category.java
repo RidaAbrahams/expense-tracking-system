@@ -1,4 +1,4 @@
-package za.co.rssa.ets.business.product.entity;
+package za.co.rssa.ets.business.category.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
