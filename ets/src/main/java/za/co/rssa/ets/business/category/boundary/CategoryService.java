@@ -4,8 +4,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import za.co.rssa.ets.business.category.entity.Category;
+import za.co.rssa.ets.business.product.entity.Product;
 
 /**
  *
@@ -25,9 +27,9 @@ public class CategoryService {
         return em.find(Category.class, id);
     }
 
-    public Category save(Category productCategory) {
-        System.out.println("Saving Category: " + productCategory + " to the DB...");
-        return em.merge(productCategory);
+    public Category save(Category category) {
+        System.out.println("Saving Category: " + category + " to the DB...");
+        return em.merge(category);
     }
 
     public Category findByDescription(String description) {
@@ -46,5 +48,26 @@ public class CategoryService {
     public void delete(Category category) {
         System.out.println("Deleting Category: " + category + " from the DB...");
         em.remove(category);
+    }
+
+    public List<Category> findCategoriesBy(String categoryDescription, String categoryType) {
+        System.out.println("category in query = " + categoryType);
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT c FROM Category c WHERE 1=1");
+
+        if (categoryDescription != null && !categoryDescription.trim().isEmpty()) {
+            query.append(" AND UPPER(c.description) LIKE :desc");
+        }
+        if (categoryType != null && !categoryType.trim().isEmpty()) {
+            query.append(" AND c.type = :type");
+        }
+        Query q = em.createQuery(query.toString());
+        if (categoryDescription != null && !categoryDescription.trim().isEmpty()) {
+            q.setParameter("desc", categoryDescription.trim().toUpperCase() + "%");
+        }
+        if (categoryType != null && !categoryType.isEmpty()) {
+            q.setParameter("type", categoryType);
+        }
+        return (List<Category>) q.getResultList();
     }
 }
