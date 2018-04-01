@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
+import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.product.boundary.ProductService;
 import za.co.rssa.ets.business.product.entity.Product;
 import za.co.rssa.ets.business.category.entity.Category;
@@ -45,10 +46,15 @@ public class ProductListView implements Serializable {
         productService.delete(currentProduct);
         return "productList.xhtml?faces-redirect=true";
     }
+
+    public String backButtonAction() {
+        return "/index.xhtml?faces-redirect=true";
+    }
     
     public Map<String, String> getProductCategories() {
         Map<String, String> result = new HashMap<>();
-        List<Category> allProductCategories = productCategoryService.findAll();
+        List<Category> allProductCategories = productCategoryService.findByType(CategoryType.PRODUCT.getName());
+//        List<Category> allProductCategories = productCategoryService.findAll();
         for (Category productCategory : allProductCategories) {
             result.put(productCategory.getDescription(), productCategory.getCategoryId().toString());
         }

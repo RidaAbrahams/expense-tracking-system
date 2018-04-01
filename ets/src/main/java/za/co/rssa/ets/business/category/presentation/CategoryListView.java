@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
+import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.category.entity.Category;
 import za.co.rssa.ets.business.product.presentation.ProductViewTO;
 import za.co.rssa.ets.business.product.presentation.ScreenAction;
@@ -44,10 +45,14 @@ public class CategoryListView implements Serializable {
         return "categoryList.xhtml?faces-redirect=true";
     }
 
+    public String backButtonAction() {
+        return "/index.xhtml?faces-redirect=true";
+    }
+
     public Map<String, String> getCategoryTypes() {
         Map<String, String> result = new HashMap<>();
-        result.put("Supplier", "Supplier");
-        result.put("Product", "Product");
+        result.put(CategoryType.SUPPLIER.getName(), CategoryType.SUPPLIER.getName());
+        result.put(CategoryType.PRODUCT.getName(), CategoryType.PRODUCT.getName());
         return result;
     }
 
@@ -92,5 +97,5 @@ public class CategoryListView implements Serializable {
     public void setCurrentRowInTable(CategoryViewTO currentRowInTable) {
         this.currentRowInTable = currentRowInTable;
     }
-    
+
 }

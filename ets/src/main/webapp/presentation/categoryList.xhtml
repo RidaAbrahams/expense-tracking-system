@@ -9,7 +9,9 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" style="border-bottom-style: none">
+                <p:commandButton value="Back to menu" action="#{categoryListView.backButtonAction}"/>
+                <p:outputLabel value="Maintain categories" style="font-size: xx-large"/>
                 <p:outputLabel for="searchDescription" value="Category description"/>
                 <p:inputText id="searchDescription" value="#{categoryListView.searchCategoryDescription}"/>
                 <p:outputLabel for="searchType" value="Category type"/>
@@ -22,16 +24,13 @@
             </p:panelGrid>
             <p:dataTable var="category" value="#{categoryListView.categories}">
                 <p:column headerText="Category description">
-                    <h:outputText value="#{category.categoryDescription}"/>
+                    <h:commandLink value="#{category.categoryDescription}" action="#{categoryDetailView.editButtonAction}">
+                        <f:setPropertyActionListener value="#{category}" target="#{categoryDetailView.selectedCategory}"/>
+                    </h:commandLink>
                 </p:column>
                 <p:column headerText="Category type">
                     <h:outputText value="#{category.categoryType}"/>
                 </p:column>
-                <!--p:column headerText="Edit">
-                    <h:commandLink value="#{category.categoryDescription}" action="#{categoryDetailView.editButtonAction}">
-                        <f:setPropertyActionListener value="#{category}" target="#{categoryDetailView.selectedProduct}"/>
-                    </h:commandLink>
-                </p:column-->
                 <p:column headerText="Delete">
                     <h:commandButton value="Delete" action="#{categoryListView.deleteButtonAction}">
                         <f:setPropertyActionListener value="#{category}" target="#{categoryListView.currentRowInTable}"/>

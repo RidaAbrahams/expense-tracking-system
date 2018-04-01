@@ -47,7 +47,7 @@ public class CategoryService {
 
     public void delete(Category category) {
         System.out.println("Deleting Category: " + category + " from the DB...");
-        em.remove(category);
+        em.remove(em.merge(category));
     }
 
     public List<Category> findCategoriesBy(String categoryDescription, String categoryType) {

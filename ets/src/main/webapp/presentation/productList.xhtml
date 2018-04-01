@@ -9,7 +9,9 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" style="border-style: none">
+                <p:commandButton value="Back to menu" action="#{productListView.backButtonAction}"/>
+                <p:outputLabel value="Maintain products" style="font-size: xx-large"/>
                 <p:outputLabel for="searchDescription" value="Product description"/>
                 <p:inputText id="searchDescription" value="#{productListView.searchProductDescription}"/>
                 <p:outputLabel for="searchType" value="Product category"/>
@@ -22,15 +24,12 @@
             </p:panelGrid>
             <p:dataTable var="product" value="#{productListView.products}">
                 <p:column headerText="Product description">
-                    <h:outputText value="#{product.productDescription}"/>
-                </p:column>
-                <p:column headerText="Product category">
-                    <h:outputText value="#{product.productCategoryDescription}"/>
-                </p:column>
-                <p:column headerText="Edit">
                     <h:commandLink value="#{product.productDescription}" action="#{productDetailView.editButtonAction}">
                         <f:setPropertyActionListener value="#{product}" target="#{productDetailView.selectedProduct}"/>
                     </h:commandLink>
+                </p:column>
+                <p:column headerText="Product category">
+                    <h:outputText value="#{product.productCategoryDescription}"/>
                 </p:column>
                 <p:column headerText="Delete">
                     <h:commandButton value="Delete" action="#{productListView.deleteButtonAction}">
