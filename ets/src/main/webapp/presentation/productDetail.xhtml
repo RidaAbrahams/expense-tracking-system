@@ -20,6 +20,13 @@
                     <f:selectItems value="#{productDetailView.productCategories}"/>
                 </p:selectOneMenu>
 
+                <p:outputLabel for="productSize" value="Sizes:"/>
+                <p:selectManyMenu id="productSize" value="#{productDetailView.selectedSizes}" var="s" filter="true" filterMatchMode="contains" showCheckbox="true">
+                    <f:selectItems value="#{productDetailView.allSizes}" var="size" itemLabel="#{size.sizeDescription}" itemValue="#{size}" />
+                    <p:column>
+                        <h:outputText value="#{s.sizeDescription}" />
+                    </p:column>
+                </p:selectManyMenu>
                 <p:commandButton value="Save" action="#{productDetailView.saveButtonAction}"/>
                 <p:commandButton value="Cancel" action="#{productDetailView.cancelButtonAction}"/>
             </p:panelGrid>

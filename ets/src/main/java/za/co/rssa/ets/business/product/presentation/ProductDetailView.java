@@ -2,6 +2,7 @@ package za.co.rssa.ets.business.product.presentation;
 
 import za.co.rssa.ets.business.common.presentation.ScreenAction;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.product.boundary.ProductService;
 import za.co.rssa.ets.business.product.entity.Product;
 import za.co.rssa.ets.business.category.entity.Category;
+import za.co.rssa.ets.business.product.boundary.SizeService;
+import za.co.rssa.ets.business.product.entity.Size;
 
 /**
  *
@@ -29,14 +32,19 @@ public class ProductDetailView implements Serializable {
     private ProductService productService;
     @EJB
     private CategoryService productCategoryService;
+    @EJB
+    private SizeService sizeService;
     private ProductViewTO selectedProduct;
     private ScreenAction currentScreenAction;
+    private List<SizeViewTO> selectedSizes;
+    private List<SizeViewTO> sizes;
 
     @PostConstruct
     public void init() {
         if (selectedProduct == null) {
             selectedProduct = new ProductViewTO();
         }
+        sizes = getAllSizes();
     }
 
     public String addButtonAction() {
@@ -79,6 +87,16 @@ public class ProductDetailView implements Serializable {
         }
         return result;
     }
+    
+    public List<SizeViewTO> getAllSizes() {
+        List<SizeViewTO> result = new ArrayList<>();
+        List<Size> allSizes = sizeService.findAll();
+        for (Size size : allSizes) {
+            SizeViewTO sizeViewTO = new SizeViewTO(size.getSizeId(), size.getDescription());
+            result.add(sizeViewTO);
+        }
+        return result;
+    }
 
     public String saveButtonAction() {
         System.out.println("******************** Saving... currentScreenAction = " + currentScreenAction);
@@ -101,6 +119,22 @@ public class ProductDetailView implements Serializable {
         return "productList.xhtml?faces-redirect=true";
     }
 
+    public List<SizeViewTO> getSelectedSizes() {
+        return selectedSizes;
+    }
+
+    public void setSelectedSizes(List<SizeViewTO> selectedSizes) {
+        this.selectedSizes = selectedSizes;
+    }
+
+    public List<SizeViewTO> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<SizeViewTO> sizes) {
+        this.sizes = sizes;
+    }
+    
     private void addMessage(String messageToDisplay) {
         FacesMessage messaage = new FacesMessage(FacesMessage.SEVERITY_INFO, messageToDisplay, null);
         FacesContext.getCurrentInstance().addMessage(null, messaage);

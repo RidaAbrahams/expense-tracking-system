@@ -1,4 +1,4 @@
-package za.co.rssa.ets.business.product.presentation;
+package za.co.rssa.ets.business.expense.presentation;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

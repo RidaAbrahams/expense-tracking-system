@@ -2,12 +2,15 @@ package za.co.rssa.ets.business.product.entity;
 
 import za.co.rssa.ets.business.category.entity.Category;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,6 +40,12 @@ public class Product implements Serializable {
     @JoinColumn(name = "categoryId", updatable = false)
     private Category productCategory; // FK to Category table's categoryId column
 
+    @OneToMany
+    @JoinTable(name = "ProductSize",
+            joinColumns = @JoinColumn(name = "productFK"),
+            inverseJoinColumns = @JoinColumn(name = "sizeFK"))
+    private List<Size> sizes;
+    
     public Long getProductId() {
         return productId;
     }
@@ -61,6 +70,14 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
 
+    public List<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
+    }
+    
     @Override
     public String toString() {
         return "Product{" + "productId=" + productId + ", description=" + description + ", productType=" + productCategory + '}';

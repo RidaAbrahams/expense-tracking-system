@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Size list</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid columns="2" style="border-style: none">
+                <p:commandButton value="Back to menu" action="#{sizeListView.backButtonAction}"/>
+                <p:outputLabel value="Maintain sizes" style="font-size: xx-large"/>
+                <p:outputLabel for="searchDescription" value="Size description"/>
+                <p:inputText id="searchDescription" value="#{sizeListView.searchSizeDescription}"/>
+                <p:commandButton value="Search" action="#{sizeListView.searchButtonAction}"/>
+                <p:commandButton value="Add" action="#{sizeDetailView.addButtonAction}"/>
+            </p:panelGrid>
+            <p:dataTable var="size" value="#{sizeListView.sizes}">
+                <p:column headerText="Size description">
+                    <h:commandLink value="#{size.sizeDescription}" action="#{sizeDetailView.editButtonAction}">
+                        <f:setPropertyActionListener value="#{size}" target="#{sizeDetailView.selectedSize}"/>
+                    </h:commandLink>
+                </p:column>
+                <p:column headerText="Delete">
+                    <h:commandButton value="Delete" action="#{sizeListView.deleteButtonAction}">
+                        <f:setPropertyActionListener value="#{size}" target="#{sizeListView.currentRowInTable}"/>
+                    </h:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
