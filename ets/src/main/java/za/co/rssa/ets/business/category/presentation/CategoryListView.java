@@ -15,7 +15,9 @@ import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.category.entity.Category;
 import za.co.rssa.ets.business.product.boundary.ProductService;
 import za.co.rssa.ets.business.product.entity.Product;
-import za.co.rssa.ets.business.product.presentation.ScreenAction;
+import za.co.rssa.ets.business.common.presentation.ScreenAction;
+import za.co.rssa.ets.business.supplier.boundary.SupplierService;
+import za.co.rssa.ets.business.supplier.entity.Supplier;
 
 /**
  *
@@ -29,6 +31,8 @@ public class CategoryListView implements Serializable {
     private CategoryService categoryService;
     @EJB
     private ProductService productService;
+    @EJB
+    private SupplierService supplierService;
     private CategoryViewTO currentRowInTable;
     private String searchCategoryDescription;
     private String searchCategoryType;
@@ -45,21 +49,45 @@ public class CategoryListView implements Serializable {
 
     public String deleteButtonAction() {
         String result = null;
-        System.out.println("deleteButtonAction initiated...");
-        // Check if this category is in use before deleting it
-        List<Product> productsLinkedToThisCategory = productService.findProductsBy(null, currentRowInTable.getCategoryId().toString());
-        // If there aren't any products linked to this category, delete it, else display an error.
-        if (productsLinkedToThisCategory == null || productsLinkedToThisCategory.isEmpty()) {
-            System.out.println("About to delete this category...");
-            Category currentCategory = categoryService.findById(currentRowInTable.getCategoryId());
-            categoryService.delete(currentCategory);
-            return "categoryList.xhtml?faces-redirect=true";
-        } else {
-            System.out.println("May not delete this category!!!");
+
+        if (categoryInUseByOneOrMoreProducts()) {
+            System.out.println("May not delete this category!!! Products are using it");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "This category is in use. First delete all products linked to it before attempting to delete it again."));
             result = null;
+        } else if (categoryInUseByOneOrMoreSuppliers()) {
+            System.out.println("May not delete this category!!! Suppliers are using it");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "This category is in use. First delete all suppliers linked to it before attempting to delete it again."));
+            result = null;
+        } else {
+            deleteCategory();
+            result = "categoryList.xhtml?faces-redirect=true";
         }
         return result;
+    }
+
+    private void deleteCategory() {
+        Category currentCategory = categoryService.findById(currentRowInTable.getCategoryId());
+        categoryService.delete(currentCategory);
+    }
+
+    private boolean categoryInUseByOneOrMoreProducts() {
+        List<Product> productsLinkedToThisCategory = productService.findProductsBy(null, currentRowInTable.getCategoryId().toString());
+        // If there aren't any products linked to this category, return false, else return true.
+        if (productsLinkedToThisCategory == null || productsLinkedToThisCategory.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean categoryInUseByOneOrMoreSuppliers() {
+        List<Supplier> suppliersLinkedToThisCategory = supplierService.findSuppliersBy(null, currentRowInTable.getCategoryId().toString());
+        // If there aren't any suppliers linked to this category, return false, else return true.
+        if (suppliersLinkedToThisCategory == null || suppliersLinkedToThisCategory.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String backButtonAction() {

@@ -10,7 +10,7 @@ import javax.faces.bean.SessionScoped;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.category.entity.Category;
-import za.co.rssa.ets.business.product.presentation.ScreenAction;
+import za.co.rssa.ets.business.common.presentation.ScreenAction;
 
 /**
  *

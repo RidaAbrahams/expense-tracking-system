@@ -1,5 +1,6 @@
 package za.co.rssa.ets.business.product.presentation;
 
+import za.co.rssa.ets.business.common.presentation.ScreenAction;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

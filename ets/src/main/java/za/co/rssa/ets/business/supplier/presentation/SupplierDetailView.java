@@ -1,5 +1,6 @@
-package za.co.rssa.ets.business.product.presentation;
+package za.co.rssa.ets.business.supplier.presentation;
 
+import za.co.rssa.ets.business.supplier.presentation.*;
 import za.co.rssa.ets.business.common.presentation.ScreenAction;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -13,8 +14,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.category.boundary.CategoryType;
-import za.co.rssa.ets.business.product.boundary.ProductService;
-import za.co.rssa.ets.business.product.entity.Product;
+import za.co.rssa.ets.business.supplier.boundary.SupplierService;
+import za.co.rssa.ets.business.supplier.entity.Supplier;
 import za.co.rssa.ets.business.category.entity.Category;
 
 /**
@@ -23,44 +24,44 @@ import za.co.rssa.ets.business.category.entity.Category;
  */
 @ManagedBean
 @SessionScoped
-public class ProductDetailView implements Serializable {
+public class SupplierDetailView implements Serializable {
 
     @EJB
-    private ProductService productService;
+    private SupplierService supplierService;
     @EJB
-    private CategoryService productCategoryService;
-    private ProductViewTO selectedProduct;
+    private CategoryService supplierCategoryService;
+    private SupplierViewTO selectedSupplier;
     private ScreenAction currentScreenAction;
 
     @PostConstruct
     public void init() {
-        if (selectedProduct == null) {
-            selectedProduct = new ProductViewTO();
+        if (selectedSupplier == null) {
+            selectedSupplier = new SupplierViewTO();
         }
     }
 
     public String addButtonAction() {
         System.out.println("addButtonAction initiated...");
-        selectedProduct = new ProductViewTO();
+        selectedSupplier = new SupplierViewTO();
         currentScreenAction = ScreenAction.ADD;
         System.out.println("currentScreenAction = " + currentScreenAction);
-        return "productDetail.xhtml";
+        return "supplierDetail.xhtml";
     }
 
     public String editButtonAction() {
         System.out.println("editButtonAction initiated...");
         currentScreenAction = ScreenAction.EDIT;
         System.out.println("currentScreenAction = " + currentScreenAction);
-        return "productDetail.xhtml";
+        return "supplierDetail.xhtml";
     }
 
-    public ProductViewTO getSelectedProduct() {
-        return selectedProduct;
+    public SupplierViewTO getSelectedSupplier() {
+        return selectedSupplier;
     }
 
-    public void setSelectedProduct(ProductViewTO selectedProduct) {
-        this.selectedProduct = selectedProduct;
-        System.out.println("************************** setSelected() ran, the value of ScreenAction is: " + this.selectedProduct.getScreenAction());
+    public void setSelectedSupplier(SupplierViewTO selectedSupplier) {
+        this.selectedSupplier = selectedSupplier;
+        System.out.println("************************** setSelected() ran, the value of ScreenAction is: " + this.selectedSupplier.getScreenAction());
     }
 
     public ScreenAction getCurrentScreenAction() {
@@ -71,34 +72,34 @@ public class ProductDetailView implements Serializable {
         this.currentScreenAction = currentScreenAction;
     }
 
-    public Map<String, String> getProductCategories() {
+    public Map<String, String> getSupplierCategories() {
         Map<String, String> result = new HashMap<>();
-        List<Category> allProductCategories = productCategoryService.findByType(CategoryType.PRODUCT.getName());
-        for (Category productCategory : allProductCategories) {
-            result.put(productCategory.getDescription(), productCategory.getCategoryId().toString());
+        List<Category> allSupplierCategories = supplierCategoryService.findByType(CategoryType.SUPPLIER.getName());
+        for (Category supplierCategory : allSupplierCategories) {
+            result.put(supplierCategory.getDescription(), supplierCategory.getCategoryId().toString());
         }
         return result;
     }
 
     public String saveButtonAction() {
         System.out.println("******************** Saving... currentScreenAction = " + currentScreenAction);
-        System.out.println("In saveButtonAction, the value of selectedProduct = " + selectedProduct);
+        System.out.println("In saveButtonAction, the value of selectedSupplier = " + selectedSupplier);
         if (currentScreenAction.equals(ScreenAction.ADD)) {
             System.out.println("***************** About to ADD *********************");
-            Product product = new Product();
-            product.setDescription(selectedProduct.getProductDescription());
-            productService.save(product, selectedProduct.getProductCategoryId());
+            Supplier supplier = new Supplier();
+            supplier.setName(   selectedSupplier.getSupplierName());
+            supplierService.save(supplier, selectedSupplier.getSupplierCategoryId());
         } else if (currentScreenAction.equals(ScreenAction.EDIT)) {
             System.out.println("***************** About to EDIT *********************");
-            Product selectedProductFromDB = productService.findById(selectedProduct.getProductId());
-            selectedProductFromDB.setDescription(selectedProduct.getProductDescription());
-            productService.save(selectedProductFromDB, selectedProduct.getProductCategoryId());
+            Supplier selectedSupplierFromDB = supplierService.findById(selectedSupplier.getSupplierId());
+            selectedSupplierFromDB.setName(selectedSupplier.getSupplierName());
+            supplierService.save(selectedSupplierFromDB, selectedSupplier.getSupplierCategoryId());
         }
-        return "productList.xhtml?faces-redirect=true";
+        return "supplierList.xhtml?faces-redirect=true";
     }
 
     public String cancelButtonAction() {
-        return "productList.xhtml?faces-redirect=true";
+        return "supplierList.xhtml?faces-redirect=true";
     }
 
     private void addMessage(String messageToDisplay) {

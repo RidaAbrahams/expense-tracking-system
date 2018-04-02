@@ -1,7 +1,7 @@
 package za.co.rssa.ets.business.category.presentation;
 
 import java.io.Serializable;
-import za.co.rssa.ets.business.product.presentation.ScreenAction;
+import za.co.rssa.ets.business.common.presentation.ScreenAction;
 
 /**
  *

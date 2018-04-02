@@ -1,4 +1,4 @@
-package za.co.rssa.ets.business.product.presentation;
+package za.co.rssa.ets.business.common.presentation;
 
 /**
  *
