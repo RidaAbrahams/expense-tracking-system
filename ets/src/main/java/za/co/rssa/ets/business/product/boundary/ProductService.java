@@ -48,25 +48,25 @@ public class ProductService {
         em.remove(em.merge(product));
     }
     
-    public List<Product> findProductsBy(String productDescription, String productCategory) {
-        System.out.println("productCategory in query = " + productCategory);
+    public List<Product> findProductsBy(String productDescription, String productCategoryId) {
+        System.out.println("productCategory in query = " + productCategoryId);
         StringBuilder query = new StringBuilder();
         query.append("SELECT p FROM Product p WHERE 1=1");
         
         if (productDescription != null && !productDescription.trim().isEmpty()) {
             query.append(" AND UPPER(p.description) LIKE :desc");
         }
-        if (productCategory != null && !productCategory.trim().isEmpty()) {
+        if (productCategoryId != null && !productCategoryId.trim().isEmpty()) {
             query.append(" AND p.productCategory.categoryId = :categoryId");
         }
         Query q = em.createQuery(query.toString());
         if (productDescription != null && !productDescription.trim().isEmpty()) {
             q.setParameter("desc", productDescription.trim().toUpperCase() + "%");
         }
-        if (productCategory != null && !productCategory.isEmpty()) {
-            q.setParameter("categoryId", Long.valueOf(productCategory));
+        if (productCategoryId != null && !productCategoryId.isEmpty()) {
+            q.setParameter("categoryId", Long.valueOf(productCategoryId));
         }
         return (List<Product>)q.getResultList();
     }
-
+    
 }

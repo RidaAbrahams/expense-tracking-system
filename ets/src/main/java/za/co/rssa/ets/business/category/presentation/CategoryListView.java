@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.category.boundary.CategoryType;
 import za.co.rssa.ets.business.category.entity.Category;
-import za.co.rssa.ets.business.product.presentation.ProductViewTO;
+import za.co.rssa.ets.business.product.boundary.ProductService;
+import za.co.rssa.ets.business.product.entity.Product;
 import za.co.rssa.ets.business.product.presentation.ScreenAction;
 
 /**
@@ -24,6 +27,8 @@ public class CategoryListView implements Serializable {
 
     @EJB
     private CategoryService categoryService;
+    @EJB
+    private ProductService productService;
     private CategoryViewTO currentRowInTable;
     private String searchCategoryDescription;
     private String searchCategoryType;
@@ -39,10 +44,22 @@ public class CategoryListView implements Serializable {
     }
 
     public String deleteButtonAction() {
+        String result = null;
         System.out.println("deleteButtonAction initiated...");
-        Category currentCategory = categoryService.findById(currentRowInTable.getCategoryId());
-        categoryService.delete(currentCategory);
-        return "categoryList.xhtml?faces-redirect=true";
+        // Check if this category is in use before deleting it
+        List<Product> productsLinkedToThisCategory = productService.findProductsBy(null, currentRowInTable.getCategoryId().toString());
+        // If there aren't any products linked to this category, delete it, else display an error.
+        if (productsLinkedToThisCategory == null || productsLinkedToThisCategory.isEmpty()) {
+            System.out.println("About to delete this category...");
+            Category currentCategory = categoryService.findById(currentRowInTable.getCategoryId());
+            categoryService.delete(currentCategory);
+            return "categoryList.xhtml?faces-redirect=true";
+        } else {
+            System.out.println("May not delete this category!!!");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "This category is in use. First delete all products linked to it before attempting to delete it again."));
+            result = null;
+        }
+        return result;
     }
 
     public String backButtonAction() {

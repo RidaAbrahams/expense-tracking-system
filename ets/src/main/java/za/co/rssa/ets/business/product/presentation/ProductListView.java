@@ -54,7 +54,6 @@ public class ProductListView implements Serializable {
     public Map<String, String> getProductCategories() {
         Map<String, String> result = new HashMap<>();
         List<Category> allProductCategories = productCategoryService.findByType(CategoryType.PRODUCT.getName());
-//        List<Category> allProductCategories = productCategoryService.findAll();
         for (Category productCategory : allProductCategories) {
             result.put(productCategory.getDescription(), productCategory.getCategoryId().toString());
         }

@@ -9,6 +9,9 @@
     </h:head>
     <h:body>
         <h:form>
+            <p:messages id="messages" showDetail="true" closable="true"/>
+        </h:form>
+        <h:form>
             <p:panelGrid columns="2" style="border-bottom-style: none">
                 <p:commandButton value="Back to menu" action="#{categoryListView.backButtonAction}"/>
                 <p:outputLabel value="Maintain categories" style="font-size: xx-large"/>

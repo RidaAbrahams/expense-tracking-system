@@ -10,10 +10,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import za.co.rssa.ets.business.category.boundary.CategoryService;
 import za.co.rssa.ets.business.product.boundary.ProductService;
-import za.co.rssa.ets.business.product.boundary.ProductCategoryService;
 import za.co.rssa.ets.business.category.entity.Category;
 import za.co.rssa.ets.business.product.entity.Product;
-import za.co.rssa.ets.business.product.entity.ProductCategory;
 
 /**
  *
@@ -26,8 +24,6 @@ public class DataSetup {
 
     @EJB
     private ProductService productService;
-    @EJB
-    private ProductCategoryService productCategoryService;
     @EJB
     private CategoryService categoryService;
 
