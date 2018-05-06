@@ -45,12 +45,21 @@ public class ProductDetailView implements Serializable {
             selectedProduct = new ProductViewTO();
         }
         sizes = getAllSizes();
+        System.out.println("Available sizes are:");
+        for (SizeViewTO size : sizes) {
+            System.out.println(size);
+        }
+        System.out.println("End of available sizes.");
+//        if (selectedSizes == null) {
+//            selectedSizes = new ArrayList<>();
+//        }
     }
 
     public String addButtonAction() {
         System.out.println("addButtonAction initiated...");
         selectedProduct = new ProductViewTO();
         currentScreenAction = ScreenAction.ADD;
+        selectedProduct.setScreenAction(currentScreenAction);
         System.out.println("currentScreenAction = " + currentScreenAction);
         return "productDetail.xhtml";
     }
@@ -58,6 +67,7 @@ public class ProductDetailView implements Serializable {
     public String editButtonAction() {
         System.out.println("editButtonAction initiated...");
         currentScreenAction = ScreenAction.EDIT;
+        selectedProduct.setScreenAction(currentScreenAction);
         System.out.println("currentScreenAction = " + currentScreenAction);
         return "productDetail.xhtml";
     }
@@ -104,15 +114,34 @@ public class ProductDetailView implements Serializable {
         if (currentScreenAction.equals(ScreenAction.ADD)) {
             System.out.println("***************** About to ADD *********************");
             Product product = new Product();
+            System.out.println("*** selectedProduct.getProductCategoryDescription() = [" + selectedProduct.getProductCategoryDescription() + "] ***");
             product.setDescription(selectedProduct.getProductDescription());
+            List<Size> sizesToPersist = convertViewTOListToJPAEntityList(selectedSizes);
+            product.setSizes(sizesToPersist);
             productService.save(product, selectedProduct.getProductCategoryId());
         } else if (currentScreenAction.equals(ScreenAction.EDIT)) {
             System.out.println("***************** About to EDIT *********************");
             Product selectedProductFromDB = productService.findById(selectedProduct.getProductId());
             selectedProductFromDB.setDescription(selectedProduct.getProductDescription());
+            List<Size> sizesToPersist = convertViewTOListToJPAEntityList(selectedSizes);
+            selectedProductFromDB.setSizes(sizesToPersist);
             productService.save(selectedProductFromDB, selectedProduct.getProductCategoryId());
         }
         return "productList.xhtml?faces-redirect=true";
+    }
+    
+    private List<Size> convertViewTOListToJPAEntityList(List<SizeViewTO> sizeViewTOList) {
+        List<Size> result = new ArrayList<>();
+        for (SizeViewTO sizeId : sizeViewTOList) {
+            Size convertedSize = convertSizeIdToJPAEntity(sizeId.getSizeId());
+            result.add(convertedSize);
+        }
+        return result;
+    }
+
+    private Size convertSizeIdToJPAEntity(Long sizeId) {
+        System.out.println("Value whilst attempting to convert is: " + sizeId);
+        return sizeService.findById(sizeId);
     }
 
     public String cancelButtonAction() {

@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import za.co.rssa.ets.business.product.entity.Size;
-import za.co.rssa.ets.business.product.entity.Size;
 
 /**
  *

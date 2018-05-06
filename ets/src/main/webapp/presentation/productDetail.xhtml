@@ -21,8 +21,9 @@
                 </p:selectOneMenu>
 
                 <p:outputLabel for="productSize" value="Sizes:"/>
-                <p:selectManyMenu id="productSize" value="#{productDetailView.selectedSizes}" var="s" filter="true" filterMatchMode="contains" showCheckbox="true">
-                    <f:selectItems value="#{productDetailView.allSizes}" var="size" itemLabel="#{size.sizeDescription}" itemValue="#{size}" />
+                <p:selectManyMenu id="productSize" value="#{productDetailView.selectedSizes}" converter="sizeConverter" var="s" filter="true" 
+                                  filterMatchMode="contains" showCheckbox="true">
+                    <f:selectItems value="#{productDetailView.sizes}" var="size" itemLabel="#{size.sizeDescription}" itemValue="#{size}" />
                     <p:column>
                         <h:outputText value="#{s.sizeDescription}" />
                     </p:column>

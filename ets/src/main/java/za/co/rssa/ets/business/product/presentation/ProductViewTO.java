@@ -2,6 +2,7 @@ package za.co.rssa.ets.business.product.presentation;
 
 import za.co.rssa.ets.business.common.presentation.ScreenAction;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,7 @@ public class ProductViewTO implements Serializable {
     private String productDescription;
     private String productCategoryDescription;
     private Long productCategoryId;
+    private List<SizeViewTO> productSizes;
     private ScreenAction screenAction;
 
     public Long getProductId() {
@@ -55,6 +57,14 @@ public class ProductViewTO implements Serializable {
         this.screenAction = screenAction;
     }
 
+    public List<SizeViewTO> getProductSizes() {
+        return productSizes;
+    }
+
+    public void setProductSizes(List<SizeViewTO> productSizes) {
+        this.productSizes = productSizes;
+    }
+    
     @Override
     public String toString() {
         return "ProductViewTO{" + "productId=" + productId + ", productDescription=" + productDescription + ", productCategoryDescription=" + productCategoryDescription + ", productCategoryId=" + productCategoryId + ", screenAction=" + screenAction + '}';
